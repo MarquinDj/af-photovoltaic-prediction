@@ -11,14 +11,15 @@ interface MapaProps {
 export default function Mapa({ municipios, onMunicipioClick }: MapaProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [geoData, setGeoData] = useState<any>(null);
-
+  const [selectedMunicipioId, setSelectedMunicipioId] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     d3.json("/ceara-municipios.geojson").then((data) => {
       setGeoData(data);
     });
   }, []);
-
 
   useEffect(() => {
     if (!geoData || !svgRef.current || municipios.length === 0) return;
@@ -38,6 +39,22 @@ export default function Mapa({ municipios, onMunicipioClick }: MapaProps) {
       municipios.map((m) => [m.nome.toUpperCase(), m])
     );
 
+    const getFillColor = (feature: any) => {
+      const municipio = municipioMap.get(
+        feature.properties.name?.toUpperCase()
+      );
+
+      if (!municipio) return "#e5e7eb";
+
+      if (selectedMunicipioId === null) {
+        return "#3b82f6";
+      }
+
+      if (selectedMunicipioId === municipio.id!) {
+        return "#10b981";
+      }
+      return "#9ca3af";
+    };
 
     g.selectAll("path")
       .data(geoData.features)
@@ -45,32 +62,30 @@ export default function Mapa({ municipios, onMunicipioClick }: MapaProps) {
       .append("path")
       .attr("d", pathGenerator as any)
       .attr("class", "municipio-path")
-      .attr("fill", (d: any) => {
-        const municipio = municipioMap.get(d.properties.name?.toUpperCase());
-        return municipio ? "#3b82f6" : "#e5e7eb";
-      })
+      .attr("fill", getFillColor)
       .attr("stroke", "#fff")
       .attr("stroke-width", 0.5)
       .style("cursor", "pointer")
       .on("mouseover", function (event, d: any) {
-        d3.select(this).attr("fill", "#1e40af").attr("stroke-width", 2);
-
         const municipio = municipioMap.get(d.properties.name?.toUpperCase());
+        if (municipio && selectedMunicipioId !== municipio.id) {
+          d3.select(this).attr("fill", "#10b981");
+        }
+        d3.select(this).attr("stroke-width", 2);
+
         if (municipio) {
           showTooltip(event, municipio);
         }
       })
       .on("mouseout", function (event, d: any) {
-        const municipio = municipioMap.get(d.properties.name?.toUpperCase());
-        d3.select(this)
-          .attr("fill", municipio ? "#3b82f6" : "#e5e7eb")
-          .attr("stroke-width", 0.5);
+        d3.select(this).attr("fill", getFillColor(d)).attr("stroke-width", 0.5);
 
         hideTooltip();
       })
       .on("click", function (event, d: any) {
         const municipio = municipioMap.get(d.properties.name?.toUpperCase());
         if (municipio) {
+          setSelectedMunicipioId(municipio.id);
           onMunicipioClick(municipio.id);
         }
       });
@@ -83,7 +98,7 @@ export default function Mapa({ municipios, onMunicipioClick }: MapaProps) {
       });
 
     svg.call(zoom as any);
-  }, [geoData, municipios, onMunicipioClick]);
+  }, [geoData, municipios, onMunicipioClick, selectedMunicipioId]);
 
   const showTooltip = (event: any, municipio: Municipio) => {
     const tooltip = d3.select("#map-tooltip");
@@ -120,6 +135,7 @@ export default function Mapa({ municipios, onMunicipioClick }: MapaProps) {
           border: "1px solid #ddd",
           borderRadius: "4px",
           pointerEvents: "none",
+          color: "#000000ff",
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           fontSize: "14px",
         }}

@@ -20,12 +20,17 @@ interface Props {
 }
 
 export default function GraficoTemperatura({ dados }: Props) {
-  const dadosFormatados = dados.map((d) => ({
-    data: format(new Date(d.data), "MMM/yy", { locale: ptBR }),
-    "Temp. Ambiente": Number((d.temperatura_2m - 273.15).toFixed(1)),
-    "Temp. Módulo": Number((d.temperatura_modulo - 273.15).toFixed(1)),
-  }));
-
+  const dadosFormatados = dados.map((d) => {
+    const data = new Date(d.data);
+    const dataAjustada = new Date(
+      data.valueOf() + data.getTimezoneOffset() * 60 * 1000
+    );
+    return {
+      data: format(dataAjustada, "MMM/yyyy", { locale: ptBR }),
+      "Temp. Ambiente": Number((d.temperatura_2m - 273.15).toFixed(1)),
+      "Temp. Módulo": Number((d.temperatura_modulo - 273.15).toFixed(1)),
+    };
+  });
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={dadosFormatados}>
@@ -40,7 +45,18 @@ export default function GraficoTemperatura({ dados }: Props) {
             style: { textAnchor: "middle" },
           }}
         />
-        <Tooltip />
+        <Tooltip
+          labelStyle={{
+            color: "#000",
+            fontWeight: "bold",
+          }}
+          contentStyle={{
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            border: "1px solid #ccc",
+            borderRadius: "8px",
+            padding: "10px",
+          }}
+        />
         <Legend />
         <Line
           type="monotone"
