@@ -14,20 +14,134 @@ export default function ExportarDados({
   dadosAF,
   previsoes,
 }: ExportarDadosProps) {
-  const exportarCSV = (dados: any[], nomeArquivo: string) => {
-    if (!dados || dados.length === 0) {
-      alert("Nenhum dado disponível para exportar");
+  const formatarData = (data: any): string => {
+    try {
+      const dataObj = new Date(data);
+      return dataObj.toLocaleDateString("pt-BR");
+    } catch {
+      return String(data);
+    }
+  };
+
+  const escaparCSV = (valor: any): string => {
+    if (valor === null || valor === undefined) return "";
+    const str = String(valor).replace(/"/g, '""');
+    if (str.includes(",") || str.includes("\n") || str.includes('"')) {
+      return `"${str}"`;
+    }
+    return str;
+  };
+
+
+  const arrayParaCSV = (dados: any[][]): string => {
+    return dados.map((linha) => linha.map(escaparCSV).join(",")).join("\n");
+  };
+
+  const exportarMeteorologicos = () => {
+    if (!dadosMet || dadosMet.length === 0) {
+      alert("Nenhum dado meteorológico disponível para exportar");
       return;
     }
 
-    const headers = Object.keys(dados[0]).join(",");
-    const rows = dados.map((obj) => Object.values(obj).join(","));
-    const csv = [headers, ...rows].join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const cabecalho = [
+      "Município",
+      "Data",
+      "Temperatura 2m (K)",
+      "Temperatura Módulo (K)",
+      "Umidade Relativa (%)",
+      "Índice UV ",
+      "Radiação Solar (W/m²)",
+    ];
+
+    const linhas = dadosMet.map((dado) => [
+      nomeMunicipio,
+      formatarData(dado.data),
+      dado.temperatura_2m?.toFixed(2) ?? "N/A",
+      dado.temperatura_modulo?.toFixed(2) ?? "N/A",
+      dado.umidade_relativa?.toFixed(2) ?? "N/A",
+      dado.indice_uv?.toFixed(2) ?? "N/A",
+      dado.radiacao_solar?.toFixed(2) ?? "N/A",
+    ]);
+
+    const csv = arrayParaCSV([cabecalho, ...linhas]);
+    baixarCSV(csv, `${nomeMunicipio}_dados_meteorologicos`);
+  };
+
+
+  const exportarAF = () => {
+    if (!dadosAF || dadosAF.length === 0) {
+      alert("Nenhum dado de AF disponível para exportar");
+      return;
+    }
+
+    const mapaData = new Map(dadosMet.map((dm) => [dm.id, dm.data]));
+
+    const cabecalho = [
+      "Município",
+      "Data",
+      "AF Temperatura",
+      "AF Umidade",
+      "AF UV",
+      "AF Total",
+    ];
+
+    const linhas = dadosAF.map((dado) => {
+      const data = mapaData.get(dado.dado_met_id) || dado.data;
+
+      return [
+        nomeMunicipio,
+        data ? formatarData(data) : "N/A",
+        dado.af_temp?.toFixed(4) ?? "N/A",
+        dado.af_umidade?.toFixed(4) ?? "N/A",
+        dado.af_uv?.toFixed(4) ?? "N/A",
+        dado.af_total?.toFixed(4) ?? "N/A",
+      ];
+    });
+
+    const csv = arrayParaCSV([cabecalho, ...linhas]);
+    baixarCSV(csv, `${nomeMunicipio}_analise_af`);
+  };
+
+  const exportarPrevisoes = () => {
+    if (!previsoes || previsoes.length === 0) {
+      alert("Nenhuma previsão disponível para exportar");
+      return;
+    }
+
+    const cabecalho = [
+      "Município",
+      "Data",
+      "AF Total Previsto",
+      "Limite Inferior",
+      "Limite Superior",
+    ];
+
+    const linhas = previsoes.map((prev) => [
+      nomeMunicipio,
+      formatarData(prev.data),
+      prev.af_total?.toFixed(4) ?? "N/A",
+      prev.lim_inf?.toFixed(4) ?? "N/A",
+      prev.lim_sup?.toFixed(4) ?? "N/A",
+    ]);
+
+    const csv = arrayParaCSV([cabecalho, ...linhas]);
+    baixarCSV(csv, `${nomeMunicipio}_previsoes_af`);
+  };
+
+  const baixarCSV = (conteudo: string, nomeArquivo: string) => {
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + conteudo], {
+      type: "text/csv;charset=utf-8;",
+    });
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `${nomeMunicipio}_${nomeArquivo}.csv`;
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = `${nomeArquivo}.csv`;
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -54,7 +168,7 @@ export default function ExportarDados({
 
       <div className="space-y-3">
         <button
-          onClick={() => exportarCSV(dadosMet, "dados_meteorologicos")}
+          onClick={exportarMeteorologicos}
           disabled={!dadosMet.length}
           className="w-full px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 
             text-white font-semibold rounded-lg shadow-md
@@ -75,7 +189,7 @@ export default function ExportarDados({
         </button>
 
         <button
-          onClick={() => exportarCSV(dadosAF, "analise_af")}
+          onClick={exportarAF}
           disabled={!dadosAF.length}
           className="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 
             text-white font-semibold rounded-lg shadow-md
@@ -96,7 +210,7 @@ export default function ExportarDados({
         </button>
 
         <button
-          onClick={() => exportarCSV(previsoes, "previsoes_af")}
+          onClick={exportarPrevisoes}
           disabled={!previsoes.length}
           className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-purple-600 
             text-white font-semibold rounded-lg shadow-md
