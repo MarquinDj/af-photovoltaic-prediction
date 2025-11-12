@@ -8,15 +8,35 @@ interface Props {
 export default function FiltroTempo({ onFiltrar }: Props) {
   const [dataInicio, setDataInicio] = useState("");
   const [dataFim, setDataFim] = useState("");
+  const [erro, setErro] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    setErro("");
+
+    if ((dataInicio && !dataFim) || (!dataInicio && dataFim)) {
+      setErro("Por favor, preencha ambas as datas (início e fim)");
+      return;
+    }
+
+    if (dataInicio && dataFim) {
+      const inicio = new Date(dataInicio);
+      const fim = new Date(dataFim);
+
+      if (fim < inicio) {
+        setErro("A data final deve ser maior que a data inicial");
+        return;
+      }
+    }
+
     onFiltrar(dataInicio, dataFim);
   };
 
   const handleLimpar = () => {
     setDataInicio("");
     setDataFim("");
+    setErro("");
     onFiltrar("", "");
   };
 
@@ -34,7 +54,10 @@ export default function FiltroTempo({ onFiltrar }: Props) {
             <input
               type="date"
               value={dataInicio}
-              onChange={(e) => setDataInicio(e.target.value)}
+              onChange={(e) => {
+                setDataInicio(e.target.value);
+                setErro("");
+              }}
               className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 
                        focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
                        transition-all duration-200 cursor-pointer"
@@ -49,7 +72,10 @@ export default function FiltroTempo({ onFiltrar }: Props) {
             <input
               type="date"
               value={dataFim}
-              onChange={(e) => setDataFim(e.target.value)}
+              onChange={(e) => {
+                setDataFim(e.target.value);
+                setErro("");
+              }}
               className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 
                        focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
                        transition-all duration-200 cursor-pointer"
@@ -82,6 +108,15 @@ export default function FiltroTempo({ onFiltrar }: Props) {
             </button>
           </div>
         </div>
+
+        {erro && (
+          <div className="mt-4 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
+            <div className="flex items-center">
+              <span className="text-red-500 text-xl mr-3">⚠️</span>
+              <p className="text-sm font-medium text-red-700">{erro}</p>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

@@ -23,6 +23,7 @@ export default function Home() {
   const [dadosAF, setDadosAF] = useState<any[]>([]);
   const [previsoes, setPrevisoes] = useState<AFPrevisto[]>([]);
   const [loadingDados, setLoadingDados] = useState(false);
+  const [semDados, setSemDados] = useState(false);
 
   useEffect(() => {
     fetch("/api/v1/municipios")
@@ -65,6 +66,8 @@ export default function Home() {
     }
 
     setLoadingDados(true);
+    setSemDados(false);
+
     Promise.all([
       fetch(urlMet).then((r) => r.json()),
       fetch(urlAF).then((r) => r.json()),
@@ -73,6 +76,11 @@ export default function Home() {
       setDadosMet(met);
       setDadosAF(af);
       setPrevisoes(prev);
+
+      if (met.length === 0) {
+        setSemDados(true);
+      }
+
       setLoadingDados(false);
     });
   };
@@ -88,6 +96,7 @@ export default function Home() {
     setDadosMet([]);
     setDadosAF([]);
     setPrevisoes([]);
+    setSemDados(false);
   };
 
   const tabsData = [
@@ -260,6 +269,23 @@ export default function Home() {
                       <p className="text-xl text-gray-600 mt-4">
                         Carregando dados...
                       </p>
+                    </div>
+                  ) : semDados ? (
+                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-12">
+                      <div className="text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
+                          <span className="text-3xl">📊</span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                          Sem dados disponíveis
+                        </h3>
+                        <p className="text-gray-600 text-lg">
+                          Não há dados para o período especificado
+                        </p>
+                        <p className="text-gray-500 text-sm mt-2">
+                          Tente selecionar um intervalo de datas diferente
+                        </p>
+                      </div>
                     </div>
                   ) : (
                     <Tabs tabs={tabsData} />
