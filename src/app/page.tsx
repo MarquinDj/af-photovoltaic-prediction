@@ -11,6 +11,7 @@ import GraficoPrevisao from "@/components/GraficoPrevisao";
 import FiltroTempo from "@/components/FiltroTempo";
 import Tabs from "@/components/Tabs";
 import ExportarDados from "@/components/ExportarDados";
+import Footer from "@/components/Footer";
 
 const Mapa = dynamic(() => import("../components/Mapa"), { ssr: false });
 
@@ -191,111 +192,114 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="container mx-auto p-6">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Sistema de Avaliação da taxa de aceleração de envelhecimento
-            Fotovoltaico
-          </h1>
-          <p className="text-gray-600">Análise de Dados Ambientais - Ceará</p>
-        </header>
+    <>
+      <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="container mx-auto p-6">
+          <header className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">
+              Sistema de Avaliação da taxa de aceleração de envelhecimento
+              Fotovoltaico
+            </h1>
+            <p className="text-gray-600">Análise de Dados Ambientais - Ceará</p>
+          </header>
 
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            <p className="text-xl text-gray-600 mt-4">
-              Carregando municípios...
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-              <h2 className="text-2xl font-bold text-black mb-4">
-                Municípios do Ceará
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Clique em um município no mapa para visualizar os dados
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <p className="text-xl text-gray-600 mt-4">
+                Carregando municípios...
               </p>
-              <Mapa
-                municipios={municipios}
-                onMunicipioClick={handleMunicipioClick}
-                municipioSelecionado={municipioSelecionado}
-              />
             </div>
+          ) : (
+            <>
+              <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  Municípios do Ceará
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Clique em um município no mapa para visualizar os dados
+                </p>
+                <Mapa
+                  municipios={municipios}
+                  onMunicipioClick={handleMunicipioClick}
+                  municipioSelecionado={municipioSelecionado}
+                />
+              </div>
 
-            {municipioSelecionado && (
-              <div className="mt-8">
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
-                  <div className="space-y-6">
-                    <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                      <div>
-                        <h2 className="text-3xl font-bold text-gray-800">
-                          {municipioSelecionado.nome}
-                        </h2>
-                        <p className="text-gray-600">
-                          Classificação Köppen:{" "}
-                          {municipioSelecionado.class_koppen}
-                        </p>
-                      </div>
-                      <button
-                        onClick={limparSelecao}
-                        className="px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg 
+              {municipioSelecionado && (
+                <div className="mt-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+                    <div className="space-y-6">
+                      <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <div>
+                          <h2 className="text-3xl font-bold text-gray-800">
+                            {municipioSelecionado.nome}
+                          </h2>
+                          <p className="text-gray-600">
+                            Classificação Köppen:{" "}
+                            {municipioSelecionado.class_koppen}
+                          </p>
+                        </div>
+                        <button
+                          onClick={limparSelecao}
+                          className="px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg 
                         hover:bg-red-600 active:bg-red-700 cursor-pointer
                         shadow-md hover:shadow-lg transform hover:-translate-y-0.5 
                         transition-all duration-200"
-                      >
-                        ✕ Fechar
-                      </button>
-                    </div>
-                    <div>
-                      <FiltroTempo onFiltrar={handleFiltrar} />
-                    </div>
-                  </div>
-                  <div>
-                    <ExportarDados
-                      nomeMunicipio={municipioSelecionado.nome}
-                      dadosMet={dadosMet}
-                      dadosAF={dadosAF}
-                      previsoes={previsoes}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  {loadingDados ? (
-                    <div className="text-center py-12 bg-white rounded-xl shadow-lg">
-                      <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                      <p className="text-xl text-gray-600 mt-4">
-                        Carregando dados...
-                      </p>
-                    </div>
-                  ) : semDados ? (
-                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-12">
-                      <div className="text-center">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
-                          <span className="text-3xl">📊</span>
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                          Sem dados disponíveis
-                        </h3>
-                        <p className="text-gray-600 text-lg">
-                          Não há dados para o período especificado
-                        </p>
-                        <p className="text-gray-500 text-sm mt-2">
-                          Tente selecionar um intervalo de datas diferente
-                        </p>
+                        >
+                          ✕ Fechar
+                        </button>
+                      </div>
+                      <div>
+                        <FiltroTempo onFiltrar={handleFiltrar} />
                       </div>
                     </div>
-                  ) : (
-                    <Tabs tabs={tabsData} />
-                  )}
+                    <div>
+                      <ExportarDados
+                        nomeMunicipio={municipioSelecionado.nome}
+                        dadosMet={dadosMet}
+                        dadosAF={dadosAF}
+                        previsoes={previsoes}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-6">
+                    {loadingDados ? (
+                      <div className="text-center py-12 bg-white rounded-xl shadow-lg">
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                        <p className="text-xl text-gray-600 mt-4">
+                          Carregando dados...
+                        </p>
+                      </div>
+                    ) : semDados ? (
+                      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-12">
+                        <div className="text-center">
+                          <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full mb-4">
+                            <span className="text-3xl">📊</span>
+                          </div>
+                          <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                            Sem dados disponíveis
+                          </h3>
+                          <p className="text-gray-600 text-lg">
+                            Não há dados para o período especificado
+                          </p>
+                          <p className="text-gray-500 text-sm mt-2">
+                            Tente selecionar um intervalo de datas diferente
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <Tabs tabs={tabsData} />
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    </main>
+              )}
+            </>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }
