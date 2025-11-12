@@ -21,44 +21,68 @@ export default function FiltroTempo({ onFiltrar }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-100 p-4 rounded-lg">
-      <div className="flex flex-wrap gap-4 items-end">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Data Início
-          </label>
-          <input
-            type="month"
-            value={dataInicio}
-            onChange={(e) => setDataInicio(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2"
-          />
+    <div className="bg-white shadow-lg rounded-xl p-6 mb-6 border border-gray-200">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        Filtrar por Período
+      </h3>
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700 mb-2">
+              Data Início
+            </label>
+            <input
+              type="date"
+              value={dataInicio}
+              onChange={(e) => setDataInicio(e.target.value)}
+              className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 
+                       focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
+                       transition-all duration-200 cursor-pointer"
+              placeholder="Selecione a data"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700 mb-2">
+              Data Fim
+            </label>
+            <input
+              type="date"
+              value={dataFim}
+              onChange={(e) => setDataFim(e.target.value)}
+              className="border-2 border-gray-300 rounded-lg px-4 py-2.5 text-gray-700 
+                       focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
+                       transition-all duration-200 cursor-pointer"
+              placeholder="Selecione a data"
+            />
+          </div>
+
+          <div className="flex flex-col justify-end">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white font-medium px-6 py-2.5 rounded-lg 
+                       hover:bg-blue-700 active:bg-blue-800 
+                       transition-colors duration-200 cursor-pointer
+                       shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              Filtrar
+            </button>
+          </div>
+
+          <div className="flex flex-col justify-end">
+            <button
+              type="button"
+              onClick={handleLimpar}
+              className="bg-gray-600 text-white font-medium px-6 py-2.5 rounded-lg 
+                       hover:bg-gray-700 active:bg-gray-800 
+                       transition-colors duration-200 cursor-pointer
+                       shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              Limpar Filtros
+            </button>
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Data Fim
-          </label>
-          <input
-            type="month"
-            value={dataFim}
-            onChange={(e) => setDataFim(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
-        >
-          Filtrar
-        </button>
-        <button
-          type="button"
-          onClick={handleLimpar}
-          className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600"
-        >
-          Limpar
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }

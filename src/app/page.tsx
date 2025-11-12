@@ -53,15 +53,15 @@ export default function Home() {
     let urlPrev = `/api/v1/af-previsto?municipio_id=${municipioId}`;
 
     if (dataInicio) {
-      urlMet += `&data_inicio=${dataInicio}-01`;
-      urlAF += `&data_inicio=${dataInicio}-01`;
-      urlPrev += `&data_inicio=${dataInicio}-01`;
+      urlMet += `&data_inicio=${dataInicio}`;
+      urlAF += `&data_inicio=${dataInicio}`;
+      urlPrev += `&data_inicio=${dataInicio}`;
     }
 
     if (dataFim) {
-      urlMet += `&data_fim=${dataFim}-01`;
-      urlAF += `&data_fim=${dataFim}-01`;
-      urlPrev += `&data_fim=${dataFim}-01`;
+      urlMet += `&data_fim=${dataFim}`;
+      urlAF += `&data_fim=${dataFim}`;
+      urlPrev += `&data_fim=${dataFim}`;
     }
 
     setLoadingDados(true);
@@ -94,70 +94,95 @@ export default function Home() {
     {
       label: "Dados Meteorológicos",
       content: (
-        <section className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-            Dados Meteorológicos
-          </h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium mb-2 text-gray-800">
+        <div className="space-y-6">
+          {/* Card Temperatura */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-red-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
                 Temperatura
               </h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
               <GraficoTemperatura dados={dadosMet} />
             </div>
-            <div>
-              <h3 className="text-lg font-medium mb-2 text-gray-800">
+          </div>
+
+          {/* Card Umidade */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-blue-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
                 Umidade Relativa
               </h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
               <GraficoUmidade dados={dadosMet} />
             </div>
-            <div>
-              <h3 className="text-lg font-medium mb-2 text-gray-800">
-                Radiacao UV
+          </div>
+
+          {/* Card UV */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-amber-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Radiação UV
               </h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
               <GraficoUV dados={dadosMet} />
             </div>
           </div>
-        </section>
+        </div>
       ),
     },
     {
       label: "Análise AF",
       content: (
-        <div className="space-y-8">
-          <section className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-              Análise AF
-            </h2>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium mb-2 text-gray-800">
-                  Componentes AF
-                </h3>
-                <GraficoAF dados={dadosAF} />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium mb-2 text-gray-800">
-                  AF Total
-                </h3>
-                <GraficoAFTotal dados={dadosAF} />
-              </div>
+        <div className="space-y-6">
+          {/* Card Componentes AF */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-purple-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Componentes AF
+              </h3>
             </div>
-          </section>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <GraficoAF dados={dadosAF} />
+            </div>
+          </div>
 
-          <section className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-              Previsão AF
-            </h2>
-            <GraficoPrevisao dados={previsoes} />
-          </section>
+          {/* Card AF Total */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-green-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">AF Total</h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <GraficoAFTotal dados={dadosAF} />
+            </div>
+          </div>
+
+          {/* Card Previsão */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-indigo-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Previsão AF
+              </h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <GraficoPrevisao dados={previsoes} />
+            </div>
+          </div>
         </div>
       ),
     },
   ];
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="container mx-auto p-6">
         <header className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
@@ -169,11 +194,14 @@ export default function Home() {
 
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-xl text-gray-600">Carregando municípios...</p>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <p className="text-xl text-gray-600 mt-4">
+              Carregando municípios...
+            </p>
           </div>
         ) : (
           <>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
               <h2 className="text-2xl font-bold text-black mb-4">
                 Municípios do Ceará
               </h2>
@@ -188,7 +216,7 @@ export default function Home() {
 
             {municipioSelecionado && (
               <div className="mt-8">
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex justify-between items-center mb-6 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
                   <div>
                     <h2 className="text-3xl font-bold text-gray-800">
                       {municipioSelecionado.nome}
@@ -199,7 +227,10 @@ export default function Home() {
                   </div>
                   <button
                     onClick={limparSelecao}
-                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                    className="px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg 
+                             hover:bg-red-600 active:bg-red-700 cursor-pointer
+                             shadow-md hover:shadow-lg transform hover:-translate-y-0.5 
+                             transition-all duration-200"
                   >
                     ✕ Fechar
                   </button>
@@ -210,8 +241,11 @@ export default function Home() {
                 </div>
 
                 {loadingDados ? (
-                  <div className="text-center py-12">
-                    <p className="text-xl text-gray-600">Carregando dados...</p>
+                  <div className="text-center py-12 bg-white rounded-xl shadow-lg">
+                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <p className="text-xl text-gray-600 mt-4">
+                      Carregando dados...
+                    </p>
                   </div>
                 ) : (
                   <Tabs tabs={tabsData} />

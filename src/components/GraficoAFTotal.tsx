@@ -35,7 +35,7 @@ export default function GraficoAF({ dados }: Props) {
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={dadosFormatados}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="data" interval={30} />
+        <XAxis dataKey="data" />
         <YAxis />
         <Tooltip
           labelStyle={{

@@ -17,11 +17,11 @@ export async function GET(request: Request) {
   }
 
   if (dataInicio) {
-    query = query.eq("data", dataInicio);
+    query = query.gte("data", dataInicio);
   }
 
   if (dataFim) {
-    query = query.eq("data", dataFim);
+    query = query.lte("data", dataFim);
   }
 
   const { data, error } = await query.order("data");
