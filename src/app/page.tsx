@@ -10,13 +10,13 @@ import GraficoAFTotal from "@/components/GraficoAFTotal";
 import GraficoPrevisao from "@/components/GraficoPrevisao";
 import FiltroTempo from "@/components/FiltroTempo";
 import Tabs from "@/components/Tabs";
+import ExportarDados from "@/components/ExportarDados";
 
 const Mapa = dynamic(() => import("../components/Mapa"), { ssr: false });
 
 export default function Home() {
   const [municipios, setMunicipios] = useState<Municipio[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [municipioSelecionado, setMunicipioSelecionado] =
     useState<Municipio | null>(null);
   const [dadosMet, setDadosMet] = useState<DadoMeteorologico[]>([]);
@@ -217,40 +217,54 @@ export default function Home() {
 
             {municipioSelecionado && (
               <div className="mt-8">
-                <div className="flex justify-between items-center mb-6 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                      <div>
+                        <h2 className="text-3xl font-bold text-gray-800">
+                          {municipioSelecionado.nome}
+                        </h2>
+                        <p className="text-gray-600">
+                          Classificação Köppen:{" "}
+                          {municipioSelecionado.class_koppen}
+                        </p>
+                      </div>
+                      <button
+                        onClick={limparSelecao}
+                        className="px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg 
+                        hover:bg-red-600 active:bg-red-700 cursor-pointer
+                        shadow-md hover:shadow-lg transform hover:-translate-y-0.5 
+                        transition-all duration-200"
+                      >
+                        ✕ Fechar
+                      </button>
+                    </div>
+                    <div>
+                      <FiltroTempo onFiltrar={handleFiltrar} />
+                    </div>
+                  </div>
                   <div>
-                    <h2 className="text-3xl font-bold text-gray-800">
-                      {municipioSelecionado.nome}
-                    </h2>
-                    <p className="text-gray-600">
-                      Classificação Köppen: {municipioSelecionado.class_koppen}
-                    </p>
+                    <ExportarDados
+                      nomeMunicipio={municipioSelecionado.nome}
+                      dadosMet={dadosMet}
+                      dadosAF={dadosAF}
+                      previsoes={previsoes}
+                    />
                   </div>
-                  <button
-                    onClick={limparSelecao}
-                    className="px-6 py-2.5 bg-red-500 text-white font-medium rounded-lg 
-                             hover:bg-red-600 active:bg-red-700 cursor-pointer
-                             shadow-md hover:shadow-lg transform hover:-translate-y-0.5 
-                             transition-all duration-200"
-                  >
-                    ✕ Fechar
-                  </button>
                 </div>
 
-                <div className="mb-6">
-                  <FiltroTempo onFiltrar={handleFiltrar} />
+                <div className="mt-6">
+                  {loadingDados ? (
+                    <div className="text-center py-12 bg-white rounded-xl shadow-lg">
+                      <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                      <p className="text-xl text-gray-600 mt-4">
+                        Carregando dados...
+                      </p>
+                    </div>
+                  ) : (
+                    <Tabs tabs={tabsData} />
+                  )}
                 </div>
-
-                {loadingDados ? (
-                  <div className="text-center py-12 bg-white rounded-xl shadow-lg">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    <p className="text-xl text-gray-600 mt-4">
-                      Carregando dados...
-                    </p>
-                  </div>
-                ) : (
-                  <Tabs tabs={tabsData} />
-                )}
               </div>
             )}
           </>
