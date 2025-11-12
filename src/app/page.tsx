@@ -211,6 +211,7 @@ export default function Home() {
               <Mapa
                 municipios={municipios}
                 onMunicipioClick={handleMunicipioClick}
+                municipioSelecionado={municipioSelecionado}
               />
             </div>
 

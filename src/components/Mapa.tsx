@@ -6,14 +6,23 @@ import { Municipio } from "../app/lib/types";
 interface MapaProps {
   municipios: Municipio[];
   onMunicipioClick: (id: number) => void;
+  municipioSelecionado?: Municipio | null;
 }
 
-export default function Mapa({ municipios, onMunicipioClick }: MapaProps) {
+export default function Mapa({
+  municipios,
+  onMunicipioClick,
+  municipioSelecionado,
+}: MapaProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [geoData, setGeoData] = useState<any>(null);
   const [selectedMunicipioId, setSelectedMunicipioId] = useState<number | null>(
     null
   );
+
+  useEffect(() => {
+    setSelectedMunicipioId(municipioSelecionado?.id || null);
+  }, [municipioSelecionado]);
 
   useEffect(() => {
     d3.json("/ceara-municipios.geojson").then((data) => {
