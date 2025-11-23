@@ -15,6 +15,12 @@ import { AFComData } from "../app/lib/types";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+import AlertaAF from "./AlertaAF";
+import {
+  calcularAFTotalMedio,
+  calcularDiferencaTemporal,
+} from "@/app/lib/utils";
+
 interface Props {
   dados: AFComData[];
 }
@@ -31,33 +37,43 @@ export default function GraficoAF({ dados }: Props) {
     };
   });
 
+  const afTotalMedio = calcularAFTotalMedio(dados);
+  const periodoTemporal = calcularDiferencaTemporal(dados);
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={dadosFormatados}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="data" />
-        <YAxis />
-        <Tooltip
-          labelStyle={{
-            color: "#000",
-            fontWeight: "bold",
-          }}
-          contentStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-          }}
-        />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="AF Total"
-          stroke="#f97316"
-          strokeWidth={2}
-          dot={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={dadosFormatados}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="data" />
+          <YAxis />
+          <Tooltip
+            labelStyle={{
+              color: "#000",
+              fontWeight: "bold",
+            }}
+            contentStyle={{
+              backgroundColor: "rgba(255, 255, 255, 0.95)",
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              padding: "10px",
+            }}
+          />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="AF Total"
+            stroke="#f97316"
+            strokeWidth={2}
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+      <AlertaAF
+        tipo="total"
+        valor={afTotalMedio}
+        periodoTemporal={periodoTemporal}
+      />
+    </div>
   );
 }

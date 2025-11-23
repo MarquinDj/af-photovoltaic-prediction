@@ -15,6 +15,9 @@ import { AFComData } from "../app/lib/types";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+import AlertaAF from "./AlertaAF";
+import { calcularMedia, extrairAFComponentes } from "@/app/lib/utils";
+
 interface Props {
   dados: AFComData[];
 }
@@ -33,47 +36,59 @@ export default function GraficoAF({ dados }: Props) {
     };
   });
 
+  const afComponentes = extrairAFComponentes(dados);
+  const mediaTemp = calcularMedia(afComponentes.temperatura);
+  const mediaUmidade = calcularMedia(afComponentes.umidade);
+  const mediaUV = calcularMedia(afComponentes.uv);
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={dadosFormatados}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="data" />
-        <YAxis />
-        <Tooltip
-          labelStyle={{
-            color: "#000",
-            fontWeight: "bold",
-          }}
-          contentStyle={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            padding: "10px",
-          }}
-        />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="AF Temperatura"
-          stroke="#ef4444"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="AF Umidade"
-          stroke="#3b82f6"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="AF UV"
-          stroke="#f59e0b"
-          strokeWidth={2}
-          dot={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={dadosFormatados}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="data" />
+          <YAxis />
+          <Tooltip
+            labelStyle={{
+              color: "#000",
+              fontWeight: "bold",
+            }}
+            contentStyle={{
+              backgroundColor: "rgba(255, 255, 255, 0.95)",
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              padding: "10px",
+            }}
+          />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="AF Temperatura"
+            stroke="#ef4444"
+            strokeWidth={2}
+            dot={false}
+          />
+          <Line
+            type="monotone"
+            dataKey="AF Umidade"
+            stroke="#3b82f6"
+            strokeWidth={2}
+            dot={false}
+          />
+          <Line
+            type="monotone"
+            dataKey="AF UV"
+            stroke="#f59e0b"
+            strokeWidth={2}
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+      <div className="space-y-2 mt-4">
+        <AlertaAF tipo="temperatura" valor={mediaTemp} />
+        <AlertaAF tipo="umidade" valor={mediaUmidade} />
+        <AlertaAF tipo="uv" valor={mediaUV} />
+      </div>
+    </div>
   );
 }
