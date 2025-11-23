@@ -102,6 +102,49 @@ export default function Home() {
 
   const tabsData = [
     {
+      label: "Análise AF",
+      content: (
+        <div className="space-y-6">
+          {/* Card Componentes AF */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-purple-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Componentes AF
+              </h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <GraficoAF dados={dadosAF} />
+            </div>
+          </div>
+
+          {/* Card AF Total */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-green-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">AF Total</h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <GraficoAFTotal dados={dadosAF} />
+            </div>
+          </div>
+
+          {/* Card Previsão */}
+          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex items-center mb-4">
+              <div className="w-1 h-8 bg-indigo-500 rounded mr-3"></div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Previsão AF
+              </h3>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <GraficoPrevisao dados={previsoes} />
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
       label: "Dados Meteorológicos",
       content: (
         <div className="space-y-6">
@@ -141,49 +184,6 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
               <GraficoUV dados={dadosMet} />
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      label: "Análise AF",
-      content: (
-        <div className="space-y-6">
-          {/* Card Componentes AF */}
-          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center mb-4">
-              <div className="w-1 h-8 bg-purple-500 rounded mr-3"></div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Componentes AF
-              </h3>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <GraficoAF dados={dadosAF} />
-            </div>
-          </div>
-
-          {/* Card AF Total */}
-          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center mb-4">
-              <div className="w-1 h-8 bg-green-500 rounded mr-3"></div>
-              <h3 className="text-xl font-semibold text-gray-800">AF Total</h3>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <GraficoAFTotal dados={dadosAF} />
-            </div>
-          </div>
-
-          {/* Card Previsão */}
-          <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center mb-4">
-              <div className="w-1 h-8 bg-indigo-500 rounded mr-3"></div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Previsão AF
-              </h3>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <GraficoPrevisao dados={previsoes} />
             </div>
           </div>
         </div>
