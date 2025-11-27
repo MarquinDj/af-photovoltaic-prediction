@@ -19,7 +19,7 @@ export default function AlertaAF({
       titulo: "Alerta Térmico",
       mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Temperatura está em ${valor.toFixed(
         2
-      )}. Segundo Cassini et al. (2018), isso pode causar a formação de gases (CO, CO₂), bolhas no encapsulante e delaminação. Além disso, temperaturas elevadas favorecem o surgimento de hotspots em interconexões degradadas.`,
+      )}. Segundo Cassini et al. (2018), elevadas temperaturas podem causar a formação de gases (CO, CO₂), bolhas no encapsulante e delaminação. Além disso, temperaturas elevadas favorecem o surgimento de hotspots em interconexões degradadas.`,
       cor: "border-red-500 bg-red-50",
     },
     umidade: {
@@ -45,7 +45,7 @@ export default function AlertaAF({
         periodoTemporal || "dos últimos 25 anos"
       } foi de ${valor.toFixed(
         2
-      )}. Como este valor é superior a 2.0, isso implica em um envelhecimento precoce dos módulos, reduzindo a vida útil estimada para menos da metade do tempo de garantia e contribuindo para falhas estruturais aceleradas.`,
+      )}. Como este valor é superior a 2.0, segundo Hacke et al. (2023), isso implica em um envelhecimento precoce dos módulos, reduzindo a vida útil estimada para menos da metade do tempo de garantia e contribuindo para falhas estruturais aceleradas.`,
       cor: "border-green-500 bg-green-50",
     },
     previsao: {
@@ -55,7 +55,7 @@ export default function AlertaAF({
         2
       )}. É prudente agendar uma inspeção visual e termográfica nos meses de ${
         mesesMenorAF?.join(" e ") || "menor estresse"
-      } para preparar o sistema para os meses de pico de degradação.`,
+      } para preparar o sistema para os meses de pico de degradação, garantindo uma eficiência energética, confibilidade e durabilidade do sistema (CORREA, 2023).`,
       cor: "border-indigo-500 bg-indigo-50",
     },
   };

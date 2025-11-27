@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { Municipio, DadoMeteorologico, AFPrevisto } from "../app/lib/types";
+import {
+  Municipio,
+  DadoMeteorologico,
+  AFPrevisto,
+  AFComData,
+} from "../app/lib/types";
 import GraficoTemperatura from "@/components/GraficoTemperatura";
 import GraficoUmidade from "@/components/GraficoUmidade";
 import GraficoUV from "@/components/GraficoUV";
@@ -21,7 +26,7 @@ export default function Home() {
   const [municipioSelecionado, setMunicipioSelecionado] =
     useState<Municipio | null>(null);
   const [dadosMet, setDadosMet] = useState<DadoMeteorologico[]>([]);
-  const [dadosAF, setDadosAF] = useState<any[]>([]);
+  const [dadosAF, setDadosAF] = useState<AFComData[]>([]);
   const [previsoes, setPrevisoes] = useState<AFPrevisto[]>([]);
   const [loadingDados, setLoadingDados] = useState(false);
   const [semDados, setSemDados] = useState(false);
@@ -110,7 +115,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-purple-500 rounded mr-3"></div>
               <h3 className="text-xl font-semibold text-gray-800">
-                Componentes AF
+                Componentes do fator de aceleração de envelhecimento
               </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -122,7 +127,9 @@ export default function Home() {
           <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-green-500 rounded mr-3"></div>
-              <h3 className="text-xl font-semibold text-gray-800">AF Total</h3>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Fator de envelhecimento total
+              </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
               <GraficoAFTotal dados={dadosAF} />
@@ -134,7 +141,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-indigo-500 rounded mr-3"></div>
               <h3 className="text-xl font-semibold text-gray-800">
-                Previsão AF
+                Previsão do fator de envelhecimento
               </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
