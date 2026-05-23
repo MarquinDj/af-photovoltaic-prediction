@@ -23,11 +23,11 @@ export default function GraficoUV({ dados }: Props) {
   const dadosFormatados = dados.map((d) => {
     const data = new Date(d.data);
     const dataAjustada = new Date(
-      data.valueOf() + data.getTimezoneOffset() * 60 * 1000
+      data.valueOf() + data.getTimezoneOffset() * 60 * 1000,
     );
     return {
       data: format(dataAjustada, "MMM/yyyy", { locale: ptBR }),
-      "Radiação UV (W/m²)": d.indice_uv,
+      "Irradiância UV (W/m²)": d.indice_uv,
     };
   });
 
@@ -38,7 +38,7 @@ export default function GraficoUV({ dados }: Props) {
         <XAxis dataKey="data" />
         <YAxis
           label={{
-            value: "Radiação UV (W/m²)",
+            value: "Irradiância UV (W/m²)",
             angle: -90,
             position: "insideLeft",
             style: { textAnchor: "middle" },
@@ -59,7 +59,7 @@ export default function GraficoUV({ dados }: Props) {
         <Legend />
         <Line
           type="monotone"
-          dataKey="Radiação UV (W/m²)"
+          dataKey="Irradiância UV (W/m²)"
           stroke="#691a97ff"
           strokeWidth={2}
           dot={false}

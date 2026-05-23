@@ -18,7 +18,7 @@ export default function AlertaAF({
       icone: "⚠️",
       titulo: "Alerta Térmico",
       mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Temperatura está em ${valor.toFixed(
-        2
+        2,
       )}. Segundo Cassini et al. (2018), elevadas temperaturas podem causar a formação de gases (CO, CO₂), bolhas no encapsulante e delaminação. Além disso, temperaturas elevadas favorecem o surgimento de hotspots em interconexões degradadas.`,
       cor: "border-red-500 bg-red-50",
     },
@@ -26,7 +26,7 @@ export default function AlertaAF({
       icone: "💧",
       titulo: "Alerta de Umidade",
       mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Umidade está em ${valor.toFixed(
-        2
+        2,
       )}. Conforme Hoffmann e Koehl (2012), umidade relativa elevada torna a superfície condutiva, podendo causar PID (Degradação Induzida por Potencial) e corrosão das interconexões metálicas. Há também risco de fissuras no backsheet devido ao efeito plastificante.`,
       cor: "border-blue-500 bg-blue-50",
     },
@@ -34,8 +34,8 @@ export default function AlertaAF({
       icone: "☀️",
       titulo: "Alerta de UV",
       mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Radiação UV está em ${valor.toFixed(
-        2
-      )}. De acordo com Aghaei et al. (2022), a exposição excessiva ao espectro UVB causa a quebra de ligações poliméricas, podendo causar descoloração (browning) do EVA e redução da potência óptica por absorção de luz.`,
+        2,
+      )}. De acordo com Aghaei et al. (2022), a exposição excessiva ao espectro UV causa a quebra de ligações poliméricas, podendo causar descoloração (browning) do EVA e redução da potência óptica por absorção de luz.`,
       cor: "border-amber-500 bg-amber-50",
     },
     total: {
@@ -44,7 +44,7 @@ export default function AlertaAF({
       mensagem: `O Fator de Aceleração (AF) médio ${
         periodoTemporal || "dos últimos 25 anos"
       } foi de ${valor.toFixed(
-        2
+        2,
       )}. Como este valor é superior a 2.0, segundo Hacke et al. (2023), isso implica em um envelhecimento precoce dos módulos, reduzindo a vida útil estimada para menos da metade do tempo de garantia e contribuindo para falhas estruturais aceleradas.`,
       cor: "border-green-500 bg-green-50",
     },
@@ -52,7 +52,7 @@ export default function AlertaAF({
       icone: "🔮",
       titulo: "Previsão Operacional",
       mensagem: `O envelhecimento acelerado estimado para o próximo ano será de ${valor.toFixed(
-        2
+        2,
       )}. É prudente agendar uma inspeção visual e termográfica nos meses de ${
         mesesMenorAF?.join(" e ") || "menor estresse"
       } para preparar o sistema para os meses de pico de degradação, garantindo uma eficiência energética, confibilidade e durabilidade do sistema (CORREA, 2023).`,
