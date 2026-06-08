@@ -17,7 +17,7 @@ export default function AlertaAF({
     temperatura: {
       icone: "⚠️",
       titulo: "Alerta Térmico",
-      mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Temperatura está em ${valor.toFixed(
+      mensagem: `O fator de aceleração do envelhecimento (AF) médio de Temperatura está em ${valor.toFixed(
         2,
       )}. Segundo Cassini et al. (2018), elevadas temperaturas podem causar a formação de gases (CO, CO₂), bolhas no encapsulante e delaminação. Além disso, temperaturas elevadas favorecem o surgimento de hotspots em interconexões degradadas.`,
       cor: "border-red-500 bg-red-50",
@@ -25,7 +25,7 @@ export default function AlertaAF({
     umidade: {
       icone: "💧",
       titulo: "Alerta de Umidade",
-      mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Umidade está em ${valor.toFixed(
+      mensagem: `O fator de aceleração do envelhecimento (AF) médio de Umidade está em ${valor.toFixed(
         2,
       )}. Conforme Hoffmann e Koehl (2012), umidade relativa elevada torna a superfície condutiva, podendo causar PID (Degradação Induzida por Potencial) e corrosão das interconexões metálicas. Há também risco de fissuras no backsheet devido ao efeito plastificante.`,
       cor: "border-blue-500 bg-blue-50",
@@ -33,7 +33,7 @@ export default function AlertaAF({
     uv: {
       icone: "☀️",
       titulo: "Alerta de UV",
-      mensagem: `A taxa de aceleração do envelhecimento (Af) médio de Radiação UV está em ${valor.toFixed(
+      mensagem: `O fator de aceleração do envelhecimento (AF) médio de Irradiância UV está em ${valor.toFixed(
         2,
       )}. De acordo com Aghaei et al. (2022), a exposição excessiva ao espectro UV causa a quebra de ligações poliméricas, podendo causar descoloração (browning) do EVA e redução da potência óptica por absorção de luz.`,
       cor: "border-amber-500 bg-amber-50",
@@ -55,7 +55,7 @@ export default function AlertaAF({
         2,
       )}. É prudente agendar uma inspeção visual e termográfica nos meses de ${
         mesesMenorAF?.join(" e ") || "menor estresse"
-      } para preparar o sistema para os meses de pico de degradação, garantindo uma eficiência energética, confibilidade e durabilidade do sistema (CORREA, 2023).`,
+      } para preparar o sistema para os meses de pico de degradação, garantindo uma eficiência energética, confiabilidade e durabilidade do sistema (BOSMAN et al., 2020).`,
       cor: "border-indigo-500 bg-indigo-50",
     },
   };

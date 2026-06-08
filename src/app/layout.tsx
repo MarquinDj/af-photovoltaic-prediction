@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title:
-    "Sistema de Avaliação da taxa de aceleração de envelhecimento Fotovoltaico",
+    "Avaliação do Fator de Aceleração do Envelhecimento de Módulos Fotovoltaicos",
   description: "Análise de dados ambientais do Ceará",
 };
 

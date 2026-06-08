@@ -115,7 +115,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-purple-500 rounded mr-3"></div>
               <h3 className="text-xl font-semibold text-gray-800">
-                Componentes do fator de aceleração de envelhecimento
+                Componentes do fator de aceleração do envelhecimento
               </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -128,7 +128,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-green-500 rounded mr-3"></div>
               <h3 className="text-xl font-semibold text-gray-800">
-                Fator de envelhecimento total
+                Fator de aceleração total do envelhecimento
               </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -141,7 +141,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-indigo-500 rounded mr-3"></div>
               <h3 className="text-xl font-semibold text-gray-800">
-                Previsão do fator de envelhecimento
+                Previsão do fator de aceleração do envelhecimento
               </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -186,7 +186,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               <div className="w-1 h-8 bg-amber-500 rounded mr-3"></div>
               <h3 className="text-xl font-semibold text-gray-800">
-                Radiação UV
+                Irradiância UV
               </h3>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -204,8 +204,8 @@ export default function Home() {
         <div className="container mx-auto p-6">
           <header className="mb-8">
             <h1 className="text-4xl font-bold text-gray-800 mb-2">
-              Sistema de Avaliação da taxa de aceleração de envelhecimento
-              Fotovoltaico
+              Avaliação do Fator de Aceleração do Envelhecimento de Módulos
+              Fotovoltaicos
             </h1>
             <p className="text-gray-600">Análise de Dados Ambientais - Ceará</p>
           </header>

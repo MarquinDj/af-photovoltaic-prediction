@@ -18,8 +18,8 @@ export default function Footer() {
           </div>
 
           <div className="text-xs text-gray-400">
-            Sistema de Avaliação da Taxa de Aceleração de Envelhecimento
-            Fotovoltaico
+            Avaliação do Fator de Aceleração do Envelhecimento de Módulos
+            Fotovoltaicos
           </div>
 
           <div className="text-xs text-gray-500">
